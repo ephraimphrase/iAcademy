@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row">
+    <div class="row">
+        <div class="col-md-6">
+            <img class="img-fluid min-vh-100" src="{% static 'images/boy.jpg' %}" alt="">
+        </div>
+        <div class="col-md-6">
+            <div class="container-fluid">
+                <div class="row min-vh-100 align-content-center">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <div class="row text-primary">
+                                <h3>Hello, Log In?</h3>
+                            </div>
+                            <div class="row">
+                                <form action="{% url 'login' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="text" class="form-control mb-3" placeholder="Username" name="username">
+                                    <input type="password" class="form-control mb-3" placeholder="Password" name="password">
+
+                                    <input class="btn btn-primary w-100" type="submit" value="Submit">
+                                </form>
+
+                                <p class="small mt-2">Don't have an Account? <a href="{% url 'register' %}">Register</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

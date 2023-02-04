@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-light">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 ">
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start p-3 mt-5" id="menu">
+                    <li>
+                        <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
+                            <li class="w-100 list rounded-start rounded-end p-2">
+                                <a href="{% url 'dashboard' %}" class="link btn btn-light ps-3 pe-4 py-2"><i class='bx bx-store span'></i> <span class="d-none d-sm-inline span">Home</span></a>
+                            </li>
+                            <li class="mt-2 list rounded-start rounded-end p-2">
+                                <a href="{% url 'register-student' %}" class="link btn btn-light ps-3 pe-4 py-2"><i class='bx bx-qr-scan span'></i> <span class="d-none d-sm-inline span">New Student</span></a>
+                            </li>
+                        </ul>
+                    </li>   
+                </ul>
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start p-3 mt-5" id="menu">
+                    {% if request.user.is_authenticated %}
+                    <li class="w-100 list rounded-start rounded-end p-2">
+                        <a href="{% url 'signOut' %}" class="link btn btn-light ps-3 pe-4 py-2"><i class='bx bx-power-off span'></i><span class="d-none d-sm-inline span">Log Out</span></a>
+                    </li>
+                    {% else %}
+                    <li class="w-100 list rounded-start rounded-end p-2">
+                        <a href="{% url 'login' %}" class="link btn btn-light ps-3 pe-4 py-2"><i class='bx bx-log-in-circle span'></i><span class="d-none d-sm-inline span">Log In</span></a>
+                    </li>
+                    <li class="w-100 list rounded-start rounded-end p-2">
+                        <a href="{% url 'register' %}" class="link btn btn-light ps-3 pe-4 py-2 text-dark"><i class='bx bx-clipboard span'></i><span class="d-none d-sm-inline span">Register</span></a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="d-flex flex-column align-items-center mt-5 align-items-sm-start px-3 pt-2 text-white">
+
+            </div>
+        </div>
+        <div class="col py-3">
+            <div class="container p-2 mt-4">
+                <div class="container p-3">
+                    <h1 class="fw-bold">Register A Student</h1>
+                </div>
+                <div class="row p-3">
+                    <div class="container">
+                        <h6 class="fw-bold">Student Details</h6>
+                        <form action="" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control form" placeholder="First Name" name="first_name">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control form" placeholder="Last Name" name="last_name">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control form" placeholder="Age" name="age">
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control form" placeholder="Department" name="department">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control form" placeholder="C.G.P.A" name="cgpa">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control form" placeholder="Level" name="level">
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-4">
+                                    <input type="date" class="form-control form" placeholder="Date of Birth" name="dob">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control form" placeholder="Matric Number" name="matric_no">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control form" placeholder="Extra Year? True or False" name="extra_year">
+                                </div>
+                            </div>
+                            <h6 class="mt-3 fw-bold">Student Image</h6>
+                            <div class="row">
+                                <div class="col-md-12 mt-2">
+                                    <input class="form-control form" type="file" id="formFile" name="student_image">
+                                </div>
+                            </div>
+                            <div class="row mx-1 mt-3">
+                                <button type="submit" class="p-2 btn btn-dark">Save Student Details</button>
+                            </div>
+            
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+{% endblock content %}

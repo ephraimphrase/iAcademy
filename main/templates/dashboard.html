@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-light">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 ">
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start p-3 mt-5" id="menu">
+                    <li>
+                        <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
+                            <li class="w-100 list rounded-start rounded-end p-2">
+                                <a href="{% url 'dashboard' %}" class="link btn btn-light ps-3 pe-4 py-2"><i class='bx bx-store span'></i> <span class="d-none d-sm-inline span">Home</span></a>
+                            </li>
+                            <li class="mt-2 list rounded-start rounded-end p-2">
+                                <a href="{% url 'register-student' %}" class="link btn btn-light ps-3 pe-4 py-2"><i class='bx bx-qr-scan span'></i> <span class="d-none d-sm-inline span">New Student</span></a>
+                            </li>
+                        </ul>
+                    </li>   
+                </ul>
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start p-3 mt-5" id="menu">
+                    {% if request.user.is_authenticated %}
+                    <li class="w-100 list rounded-start rounded-end p-2">
+                        <a href="{% url 'signOut' %}" class="link btn btn-light ps-3 pe-4 py-2"><i class='bx bx-power-off span'></i><span class="d-none d-sm-inline span">Log Out</span></a>
+                    </li>
+                    {% else %}
+                    <li class="w-100 list rounded-start rounded-end p-2">
+                        <a href="{% url 'login' %}" class="link btn btn-light ps-3 pe-4 py-2"><i class='bx bx-log-in-circle span'></i><span class="d-none d-sm-inline span">Log In</span></a>
+                    </li>
+                    <li class="w-100 list rounded-start rounded-end p-2">
+                        <a href="{% url 'register' %}" class="link btn btn-light ps-3 pe-4 py-2 text-dark"><i class='bx bx-clipboard span'></i><span class="d-none d-sm-inline span">Register</span></a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="d-flex flex-column align-items-center mt-5 align-items-sm-start px-3 pt-2 text-white">
+
+            </div>
+        </div>
+        <div class="col py-3">
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-md-9">
+                        <h3 class="text-md-start fw-bold">Hi, {{request.user.first_name}}</h3>
+                    </div>
+                    <div class="col-md-3 rounded-circle">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            
+                <div class="card bg-dark">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 border-end border-light">
+                                <div class="container d-flex justify-content-between">
+                                    <div class="icon rounded-circle d-flex align-items-center p-2"><i class='bx bx-grid-alt'></i></div>
+                                    <p class="text-light">See all</p>
+                                </div>
+                                <div class="container d-flex justify-content-between mt-3">
+                                    <h5 class="text-light">Total Student</h5>
+                                    <h5 class="text-light">{{count}}</h5>
+                                </div>
+                            </div>
+                            <div class="col-md-4 border-end border-light">
+                                <div class="container d-flex justify-content-between">
+                                    <div class="icon-1 rounded-circle d-flex align-items-center p-2"><i class='bx bx-grid-alt'></i></div>
+                                    <p class="text-light">See all</p>
+                                </div>
+                                <div class="container d-flex justify-content-between mt-3">
+                                    <h5 class="text-light">First Class Students</h5>
+                                    <h5 class="text-light">{{first_class_count}}</h5>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="container d-flex justify-content-between">
+                                    <div class="icon-2 rounded-circle d-flex align-items-center p-2"><i class='bx bx-grid-alt'></i></div>
+                                    <p class="text-light">See all</p>
+                                </div>
+                                <div class="container d-flex justify-content-between mt-3">
+                                    <h5 class="text-light">Extra Year Students</h5>
+                                    <h5 class="text-light">{{extra_year_count}}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <h5 class="my-3 fw-bold">Student</h5>
+            
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <form action="{% url 'dashboard' %}" method="GET">
+                                    <input type="text" class="form-control" placeholder="Search Student, Department, Matric_no...." name="search_query">    
+                                </form>
+                            </div>
+                        </div>
+                        <div class="card mt-2">
+                            <div class="card-body table-responsive">
+                                <table class="table table-borderless">
+                                    <thead>
+                                      <tr class="table-light">
+                                        <th scope="col"><input class="form-check-input me-1" type="checkbox"></th>
+                                        <th scope="col">Student Name</th>
+                                        <th scope="col">Level</th>
+                                        <th scope="col">Department</th>
+                                        <th scope="col">Matric Number</th>
+                                        <th scope="col">Student CGPA</th>
+                                        <th scope="col">Actions</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if page_obj %}
+                                        {% for student in page_obj %}
+                                        <tr>
+                                            <th scope="row"><input class="form-check-input me-1" type="checkbox"></th>
+                                            <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar{{student.id}}">{{student.first_name}} {{student.last_name}}</td>
+                                            <td>{{student.level}}</td>
+                                            <td>{{student.department}}</td>
+                                            <td>{{student.matric_no}}</td>
+                                            <td>{{student.cgpa}}</td>
+                                            <td>
+                                                <div class="row">
+                                                    <a href="{% url 'edit-student' student.id %}" class="btn btn-primary w-50">Edit</a>
+                                                    <a href="{% url 'delete-student' student.id %}" class="btn btn-danger w-50">Delete</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+            
+                                        <div class="offcanvas offcanvas-end" id="offcanvasNavbar{{student.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="offcanvas-header">
+                                                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Student Details</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                            </div>
+                                            <div class="offcanvas-body">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <img src="{{student.student_image.url}}" class="img-fluid" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="row border-bottom">
+                                                    <div class="col-md-9 mt-3">
+                                                        <h6 class="fw-bold">Student name</h6>
+                                                        <h6 class="text-muted">{{student.first_name}} {{student.last_name}}</h6>
+                                                    </div>
+                                                    <div class="col-md-3 mt-3">
+                                                        <h6 class="fw-bold">Level</h6>
+                                                        <h6 class="text-muted">{{student.level}}</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="row border-bottom">
+                                                    <div class="col-md-9 mt-3">
+                                                        
+                                                        <h6 class="fw-bold">Department</h6>
+                                                        <h6 class="text-muted">{{student.department}}</h6>
+                                                    </div>
+                                                    <div class="col-md-3 mt-3">
+                                                        <h6 class="fw-bold">Matric Number</h6>
+                                                        <h6 class="text-muted">{{student.matric_no}}</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="row border-bottom">
+                                                    <div class="col mt-3">
+                                                        <h6 class="fw-bold">Student CGPA</h6>
+                                                        <h6 class="text-muted">{{student.cgpa}}</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                        {% else %}
+                                        <h5 class="text-muted">There are no Students</h5>
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div> 
+                        <div class="row mt-3">
+                            <div class="col-md-9">Showing {{page_obj.number}} of {{page_obj.paginator.num_pages}}</div>
+                            <div class="col-md-3">
+                                <ul class="list-inline">
+                                    {% if page_obj.has_previous %}
+                                    <li class="list-inline-item"><a href="?page={{page_obj.previous_page_number}}" class="btn btn-sub"><i class='bx bx-chevron-left'></i></a></li>
+                                    {% endif %}
+            
+                                    {% for page_number in paginator.page_range %}
+                                    {% if page_number == page_obj.number %}
+                                    <li class="list-inline-item"><a href="?page={{page_number}}" class="btn btn-current">{{page_number}}</a></li>
+                                    {% else %}
+                                    <li class="list-inline-item"><a href="?page={{page_number}}" class="btn btn-sub">{{page_number}}</a></li>
+                                    {% endif %}
+                                    {% endfor %}
+            
+                                    {% if page_obj.has_next %}
+                                    <li class="list-inline-item"><a href="?page={{page_obj.next_page_number}}" class="btn btn-sub"><i class='bx bx-chevron-right'></i></a></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+{% endblock content %}
